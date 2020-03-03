@@ -54,7 +54,7 @@ def verificacion(request):
             'GetPaymentInfo', **{'notification_token': notification_token})
         logger.debug("Informacion del servicio GetPaymentInfo {}".format(
             result))
-    except KhipuError, e:
+    except KhipuError as e:
         logger.error("GetPaymentInfo Communication error {}".format(e))
         return HttpResponse(status=400)
     try:
