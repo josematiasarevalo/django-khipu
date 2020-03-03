@@ -17,7 +17,7 @@ class KhipuCreatePaymentForm(forms.Form):
 
     def render(self):
         if self.payment_url and self.transfer_url:
-            html = mark_safe(u"""
+            html = mark_safe("""
                 <form id="id_khipu_form_banco" action="{}" method="GET">
                     <input type="image" src="https://s3.amazonaws.com/static.khipu.com/buttons/2015/150x50-transparent.png" alt="Paga con tu banco" />
                 </form>
