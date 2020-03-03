@@ -117,4 +117,4 @@ class Payment(models.Model):
             payment_receiver_id_error.send(sender=self)
 
     def __unicode__(self):
-        return u"Orden de compra Khipu {}".format(self.payment_id)
+        return "Orden de compra Khipu {}".format(self.payment_id)
