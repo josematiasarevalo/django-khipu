@@ -39,8 +39,14 @@ class KhipuService(object):
         """
         Genera el Hash que requiere khipu.
         """
-        return hmac.new(
-            b'self.secret', b'self.concatenated()', hashlib.sha256).hexdigest()
+        secret_key = self.secret.encode('utf-8')
+        concatenation = self.concatenated().encode('utf-8')
+        result_hash = hmac.new(
+            key=secret_key,
+            msg=concatenation,
+            digestmod=hashlib.sha256
+            ).hexdigest()
+        return result_hash
 
     def concatenated(self):
         """
@@ -48,7 +54,8 @@ class KhipuService(object):
         """
         cad = "&".join(['%s=%s' % ((urllib.parse.quote(str(k), safe=''), urllib.parse.quote(str(v), safe=''))) for k, v in self.data.items()])  # noqa
         cad = "&" + cad if cad else ''
-        return '{}&{}'.format(self.method, urllib.parse.quote(str(self.get_url_service()), safe='')) + cad  # noqa
+        concat = '{}&{}'.format(self.method, urllib.parse.quote(self.get_url_service(), safe='')) + cad  # noqa
+        return concat
 
     def get_url_service(self):
         """
