@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='payment',
             name='webpay_url',
-            field=models.URLField(blank=True, null=True, verbose_name='Weboay URL'),
+            field=models.URLField(blank=True, null=True, verbose_name='Webpay URL'),
         ),
     ]
