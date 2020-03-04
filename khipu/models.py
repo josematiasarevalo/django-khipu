@@ -93,6 +93,8 @@ class Payment(models.Model):
         choices=PAYMENT_METHOD,
         null=True,
         blank=True)
+    webpay_url = models.URLField(
+        'Webpay URL', null=True, blank=True)
 
     class Meta:
         db_table = 'payment'
