@@ -100,7 +100,8 @@ class CreatePayment(KhipuService):
             'fixed_payer_personal_identifier', 'integrator_fee',
             'notify_api_version', 'notify_url', 'payer_email', 'payer_name',
             'picture_url', 'responsible_user_email', 'return_url',
-            'send_email', 'send_reminders', 'subject', 'transaction_id'
+            'send_email', 'send_reminders', 'subject', 'transaction_id',
+            'webpay_url'
         ]
         if kwargs.get('amount') and kwargs.get('currency')\
                 and kwargs.get('subject'):
@@ -118,7 +119,9 @@ class CreatePayment(KhipuService):
 
         # Con la data respuesta creamos data en el modelo.
         data_to_model = kwargs.copy()
+        print(data_to_model)
         data_to_model.update(self.data_response)
+        print(data_to_model)
         Payment.objects.create(**data_to_model)
 
 
