@@ -112,7 +112,9 @@ class Payment(models.Model):
         Enviar un Signal para la app Django
         """
         if self.status == 'done':  # Pagado
-            payment_successful.send(sender=self)
+            payment_successful.send(
+                sender=self, transaction_id=self.transaction_id
+                )
         elif self.status == 'amount_error':
             payment_amount_error.send(sender=self)
         elif self.status == 'receiver_error':
