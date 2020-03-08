@@ -10,6 +10,10 @@ from .exceptions import KhipuError
 from .models import Payment
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+ch = logging.StreamHandler()
+logger.addHandler(ch)
 
 
 def set_khipu_model(**kwargs):
