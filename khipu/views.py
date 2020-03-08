@@ -50,6 +50,7 @@ def verificacion(request):
     Se recibira por metodo POST un Token por parte de Khipu, se verificara en
     un servicio de Khipu el status del pago.
     """
+    logger.debug("Verification view has been requested")
     logger.debug("Informacion que nos envia Khipu {}".format(request.POST))
     notification_token = request.POST.get('notification_token')
     khipu = Khipu()
