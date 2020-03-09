@@ -124,6 +124,8 @@ class Payment(models.Model):
                 sender=self, transaction_id=self.transaction_id
                 )
             logger.debug("Signal payment_successful sent")
+            logger.debug("Sender=".format(self))
+            logger.debug("transaction_id=".format(self.transaction_id))
         elif self.status == 'amount_error':
             payment_amount_error.send(sender=self)
         elif self.status == 'receiver_error':
