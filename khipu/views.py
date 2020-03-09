@@ -24,6 +24,8 @@ def set_khipu_model(**kwargs):
             Todos los valores enviados por parte de Khipu
     """
     payment = Payment.objects.get(payment_id=kwargs.get('payment_id'))
+    logger.debug("Payment type is: {}".format(type(payment)))
+    logger.debug("Amount type is: {}".format(type(kwargs.get('amount'))))
     if payment.amount == kwargs.get('amount'):
         if settings.KHIPU_RECEIVER_ID == kwargs.get('receiver_id'):
             payment.save(**kwargs)
@@ -51,7 +53,6 @@ def verificacion(request):
     Se recibira por metodo POST un Token por parte de Khipu, se verificara en
     un servicio de Khipu el status del pago.
     """
-    logger.debug("Verification view has been requested")
     logger.debug("Informacion que nos envia Khipu {}".format(request.POST))
     notification_token = request.POST.get('notification_token')
     khipu = Khipu()
