@@ -56,11 +56,11 @@ def verificacion(request):
     khipu = Khipu()
     try:
         result = khipu.service(
-            'GetPaymentInfo', **{'notification_token': notification_token})
-        logger.debug("Informacion del servicio GetPaymentInfo {}".format(
+            'GetPayment', **{'notification_token': notification_token})
+        logger.debug("Informacion del servicio GetPayment {}".format(
             result))
     except KhipuError as e:
-        logger.error("GetPaymentInfo Communication error {}".format(e))
+        logger.error("GetPayment Communication error {}".format(e))
         return HttpResponse(status=400)
     try:
         set_khipu_model(**result)  # Guardar todo lo que Khipu nos envia.
