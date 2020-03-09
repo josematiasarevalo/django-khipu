@@ -24,9 +24,9 @@ def set_khipu_model(**kwargs):
             Todos los valores enviados por parte de Khipu
     """
     payment = Payment.objects.get(payment_id=kwargs.get('payment_id'))
-    logger.debug("Payment type is: {}".format(type(payment.amount)))
-    logger.debug("Amount type is: {}".format(type(kwargs.get('amount'))))
-    if payment.amount == kwargs.get('amount'):
+    logger.debug("Payment as float is: {}".format(float(payment.amount)))
+    logger.debug("Amount as float is: {}".format(float(kwargs.get('amount'))))
+    if float(payment.amount) == float(kwargs.get('amount')):
         if settings.KHIPU_RECEIVER_ID == kwargs.get('receiver_id'):
             payment.save(**kwargs)
         else:
