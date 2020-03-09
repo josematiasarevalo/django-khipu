@@ -25,12 +25,6 @@ def set_khipu_model(**kwargs):
     """
     payment = Payment.objects.get(payment_id=kwargs.get('payment_id'))
     if float(payment.amount) == float(kwargs.get('amount')):
-        logger.debug("receiver_id type is: {}".format(
-            type(kwargs.get('receiver_id')))
-        )
-        logger.debug("receiver_id as str would be: {}".format(
-            str(kwargs.get('receiver_id')))
-        )
         if int(settings.KHIPU_RECEIVER_ID) == kwargs.get('receiver_id'):
             payment.save(**kwargs)
         else:
@@ -43,7 +37,10 @@ def set_khipu_model(**kwargs):
         payment.save()
 
     # Enviamos los signlas para que la Django App sea capaz de procesar
-    payment.send_signals()
+    try:
+        payment.send_signals()
+    except:
+        logger.error("Could not send signals")
 
     return payment
 
@@ -67,7 +64,7 @@ def verificacion(request):
             result))
     except KhipuError as e:
         logger.error("GetPayment Communication error {}".format(e))
-        return HttpResponse(status=405)
+        return HttpResponse(status=400)
     try:
         set_khipu_model(**result)  # Guardar todo lo que Khipu nos envia.
     except Payment.DoesNotExist:
