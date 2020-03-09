@@ -115,21 +115,19 @@ class Payment(models.Model):
             setattr(self, fname, fval)
         super(Payment, self).save()
 
-    def send_signals(self):
+    def send_signals(self, transaction_id):
         """
         Enviar un Signal para la app Django
         """
         if self.status == 'done':  # Pagado
-            logger.debug("Sender=".format(self))
             logger.debug("transaction_id=".format(self.transaction_id))
-            sender = self
             transaction_id = self.transaction_id
             try:
                 payment_successful.send(
-                    sender=sender, transaction_id=transaction_id
+                    sender=self.__class__, transaction_id=transaction_id
                     )
                 logger.debug("Signal payment_successful sent")
-                logger.debug("Sender sent:".format(sender))
+                logger.debug("sender sent:".format(self.__class__))
                 logger.debug("transaction_id sent:".format(transaction_id))
             except:
                 logger.debug("Could not send payment_successful signal")
