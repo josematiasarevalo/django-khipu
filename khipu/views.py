@@ -45,6 +45,7 @@ def set_khipu_model(**kwargs):
 @csrf_exempt
 @require_POST
 def verificacion(request):
+    # def verificacion(request, *args, **kwargs):
     """
     Vista para validar el estatus de un pago.
     Se recibira por metodo POST un Token por parte de Khipu, se verificara en
@@ -61,7 +62,7 @@ def verificacion(request):
             result))
     except KhipuError as e:
         logger.error("GetPayment Communication error {}".format(e))
-        return HttpResponse(status=400)
+        return HttpResponse(status=405)
     try:
         set_khipu_model(**result)  # Guardar todo lo que Khipu nos envia.
     except Payment.DoesNotExist:
