@@ -120,18 +120,25 @@ class Payment(models.Model):
         Enviar un Signal para la app Django
         """
         if self.status == 'done':  # Pagado
-            payment_successful.send(
-                sender=self, transaction_id=self.transaction_id
-                )
-            logger.debug("Signal payment_successful sent")
             logger.debug("Sender=".format(self))
             logger.debug("transaction_id=".format(self.transaction_id))
+            sender = self
+            transaction_id = self.transaction_id
+            try:
+                payment_successful.send(
+                    sender=sender, transaction_id=transaction_id
+                    )
+                logger.debug("Signal payment_successful sent")
+                logger.debug("Sender sent:".format(sender))
+                logger.debug("transaction_id sent:".format(transaction_id))
+            except:
+                logger.debug("Could not send payment_successful signal")
         elif self.status == 'amount_error':
             payment_amount_error.send(sender=self)
         elif self.status == 'receiver_error':
             payment_receiver_id_error.send(sender=self)
         else:
-            logger.debug("Unrecognised self.status")
+            logger.error("Unrecognised payment status")
 
     def __unicode__(self):
         return "Orden de compra Khipu {}".format(self.payment_id)
