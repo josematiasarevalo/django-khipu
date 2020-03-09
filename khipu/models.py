@@ -1,8 +1,16 @@
+import logging
+
 from django.db import models
 
 from .constants import PAYMENT_STATUS, PAYMENT_STATUS_DETAIL, PAYMENT_METHOD
 from .signals import (
     payment_successful, payment_amount_error, payment_receiver_id_error)
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+ch = logging.StreamHandler()
+logger.addHandler(ch)
 
 
 class Payment(models.Model):
@@ -115,10 +123,13 @@ class Payment(models.Model):
             payment_successful.send(
                 sender=self, transaction_id=self.transaction_id
                 )
+            logger.debug("Signal payment_successful sent")
         elif self.status == 'amount_error':
             payment_amount_error.send(sender=self)
         elif self.status == 'receiver_error':
             payment_receiver_id_error.send(sender=self)
+        else:
+            logger.debug("Unrecognised self.status")
 
     def __unicode__(self):
         return "Orden de compra Khipu {}".format(self.payment_id)
