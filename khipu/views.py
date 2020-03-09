@@ -38,7 +38,7 @@ def set_khipu_model(**kwargs):
 
     # Enviamos los signlas para que la Django App sea capaz de procesar
     try:
-        payment.send_signals(transaction_id=payment.transaction_id)
+        payment.send_signals()
     except:
         logger.error("Could not send signals")
 
